@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="es" class="dark scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FINIX Center | Soluciones Financieras & Créditos</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Montserrat:wght@400;600;700;800&display=swap"
+        rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        gold: {
+                            100: '#FFF7D6',
+                            300: '#FFE680',
+                            400: '#F5D061',
+                            500: '#D4AF37', // Metallic Gold Base
+                            600: '#AA820A',
+                            700: '#856100',
+                            light: '#FFF0A5'
+                        },
+                        darkbg: '#07090e',
+                        darkcard: 'rgba(15, 18, 25, 0.75)',
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        heading: ['Montserrat', 'sans-serif'],
+                    },
+                    boxShadow: {
+                        'gold-glow': '0 0 25px -5px rgba(212, 175, 55, 0.3)',
+                        'gold-glow-lg': '0 0 50px 0px rgba(212, 175, 55, 0.4)',
+                        'phone-shadow': '0 25px 50px -15px rgba(212, 175, 55, 0.25)',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Modern CSS Custom Variables for Perfect Dark/Light Contrast */
+        :root {
+            --bg-main: #07090e;
+            --text-main: #F3F4F6;
+            --text-muted: #9CA3AF;
+            --text-heading: #FFFFFF;
+            --card-bg: rgba(15, 18, 26, 0.75);
+            --card-border: rgba(212, 175, 55, 0.25);
+            --nav-bg: rgba(7, 9, 14, 0.88);
+            --input-bg: rgba(0, 0, 0, 0.5);
+        }
+
+        html.light {
+            --bg-main: #F4F5F7;
+            --text-main: #27272A;
+            /* High contrast 80% dark zinc */
+            --text-muted: #52525B;
+            --text-heading: #09090B;
+            --card-bg: rgba(255, 255, 255, 0.92);
+            --card-border: rgba(212, 175, 55, 0.35);
+            --nav-bg: rgba(244, 245, 247, 0.92);
+            --input-bg: rgba(240, 240, 245, 0.9);
+        }
+
+        body {
+            background-color: var(--bg-main);
+            color: var(--text-main);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .theme-text-heading {
+            color: var(--text-heading);
+        }
+
+        .theme-text-muted {
+            color: var(--text-muted);
+        }
+
+        /* Gold Gradient Fill for Text & Icons */
+        .text-gold-gradient {
+            background: linear-gradient(135deg, #FFF5C0 0%, #D4AF37 50%, #9A7736 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Canvas Background */
+        #vortex-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.85;
+            transition: opacity 0.5s ease;
+        }
+
+        html.light #vortex-canvas {
+            opacity: 0.3;
+        }
+
+        /* Glassmorphism Panels */
+        .glass-panel {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--card-border);
+        }
+
+        .glass-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid var(--card-border);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .glass-card:hover {
+            border-color: rgba(212, 175, 55, 0.6);
+            transform: translateY(-4px);
+            box-shadow: 0 16px 32px -12px rgba(212, 175, 55, 0.25);
+        }
+
+        .glass-nav {
+            background: var(--nav-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid var(--card-border);
+        }
+
+        /* Responsive Logo Styling with SVG Metallic Mask */
+        .finix-logo-path {
+            fill: url(#gold-grad-logo);
+        }
+
+        /* Mobile App Mockup Header */
+        .app-header-card {
+            background: linear-gradient(135deg, #D4AF37 0%, #B38E26 60%, #7A5C07 100%);
+            box-shadow: 0 8px 20px -4px rgba(212, 175, 55, 0.4);
+        }
+
+        /* Scroll Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(35px);
+            transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+            will-change: opacity, transform;
+        }
+
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-40px);
+            transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(40px);
+            transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-zoom {
+            opacity: 0;
+            transform: scale(0.94);
+            transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.active,
+        .reveal-left.active,
+        .reveal-right.active,
+        .reveal-zoom.active {
+            opacity: 1;
+            transform: translateY(0) translateX(0) scale(1);
+        }
+
+        /* Floating Phone Animation */
+        @keyframes floatSlow {
+
+            0%,
+            100% {
+                transform: translateY(0px) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-10px) rotate(1deg);
+            }
+        }
+
+        .animate-float-phone {
+            animation: floatSlow 5s ease-in-out infinite;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 7px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #07090e;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #2A2415;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #D4AF37;
+        }
+    </style>
+</head>
+
+<body class="antialiased selection:bg-gold-500 selection:text-black">
+
+    <!-- GLOBAL GOLD SVG GRADIENT DEFINITION -->
+    <svg width="0" height="0" class="absolute">
+        <defs>
+            <linearGradient id="gold-grad-logo" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#FFF5C0" />
+                <stop offset="35%" stop-color="#E5C158" />
+                <stop offset="75%" stop-color="#D4AF37" />
+                <stop offset="100%" stop-color="#856100" />
+            </linearGradient>
+        </defs>
+    </svg>
+
+    <!-- DYNAMIC ANIMATED STAR-DUST VORTEX CANVAS BACKGROUND (NO ORBITS) -->
+    <canvas id="vortex-canvas"></canvas>
+
+    <!-- NAVBAR HEADER -->
+    <header class="fixed top-0 left-0 w-full z-50 glass-nav transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-20">
+
+                <!-- EXACT HORIZONTAL SVG LOGO (finixlogo-horizontal.svg) -->
+                <a href="#" class="flex items-center gap-2 group">
+                    <div class="h-10 flex items-center">
+                        <svg class="h-9 w-auto" viewBox="0 0 250 85" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <!-- LOGO FINIX CENTER (SVG Externo) -->
+                            <a href="#" class="flex items-center gap-2 group">
+                                <div class="h-10 flex items-center">
+                                    <img src="finixlogo-horizontal.svg" alt="FINIX Center"
+                                        class="h-9 w-auto object-contain filter drop-shadow-[0_0_10px_rgba(212,175,55,0.3)]">
+                                </div>
+                            </a>
+                    </div>
+                </a>
+
+                <!-- Navigation Links -->
+                <nav class="hidden lg:flex items-center space-x-7 text-xs font-semibold uppercase tracking-wider">
+                    <a href="#simulador" class="hover:text-gold-400 transition-colors">Simulador</a>
+                    <a href="#app-mobile" class="hover:text-gold-400 transition-colors">App FINIX</a>
+                    <a href="#quienes-somos" class="hover:text-gold-400 transition-colors">Nosotros</a>
+                    <a href="#beneficios" class="hover:text-gold-400 transition-colors">Beneficios</a>
+                    <a href="#cotizacion" class="hover:text-gold-400 transition-colors">Cotización USD</a>
+                </nav>
+
+                <!-- Action Controls: Login Modal Trigger, Theme Toggle & WhatsApp -->
+                <div class="hidden md:flex items-center gap-3">
+
+                    <!-- Dark/Light Theme Toggle -->
+                    <button id="theme-toggle"
+                        class="w-9 h-9 rounded-full glass-card flex items-center justify-center text-gold-400 hover:text-white transition-all">
+                        <i class="fas fa-moon text-sm" id="theme-icon"></i>
+                    </button>
+
+                    <!-- WhatsApp Button -->
+                    <a id="nav-wa-btn"
+                        href="https://wa.me/5493834709315?text=Hola%20FINIX%20Center,%20quisiera%20consultar%20por%20sus%20servicios%20financieros."
+                        target="_blank"
+                        class="px-4 py-2 rounded-full border border-gold-500/50 bg-gold-500/10 text-gold-400 hover:bg-gold-500 hover:text-black font-semibold text-xs transition-all duration-300 flex items-center gap-2">
+                        <i class="fab fa-whatsapp text-sm"></i>
+                        <span>WhatsApp</span>
+                    </a>
+
+                    <!-- LOGIN / REGISTER PORTAL BUTTON ("INGRESAR") -->
+                    <button id="open-login-modal-btn"
+                        class="px-5 py-2 rounded-full bg-gradient-to-r from-gold-500 to-gold-600 text-black font-extrabold text-xs uppercase tracking-wider shadow-gold-glow hover:shadow-gold-glow-lg transition-all transform hover:-translate-y-0.5 flex items-center gap-2">
+                        <i class="fas fa-user-circle text-sm"></i>
+                        <span>Ingresar</span>
+                    </button>
+                </div>
+
+                <!-- Mobile menu button -->
+                <div class="lg:hidden flex items-center gap-2">
+                    <button id="open-login-mobile-btn"
+                        class="px-3.5 py-1.5 rounded-full bg-gold-500 text-black font-bold text-xs uppercase">
+                        Ingresar
+                    </button>
+                    <button id="theme-toggle-mobile"
+                        class="w-8 h-8 rounded-full glass-card flex items-center justify-center text-gold-400">
+                        <i class="fas fa-moon text-xs" id="theme-icon-mobile"></i>
+                    </button>
+                    <button id="mobile-menu-btn"
+                        class="theme-text-heading hover:text-gold-400 focus:outline-none p-1.5">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu Dropdown -->
+        <div id="mobile-menu"
+            class="hidden lg:hidden glass-panel border-t border-gold-500/20 px-4 pt-2 pb-6 space-y-2 text-sm">
+            <a href="#simulador" class="block hover:text-gold-400 py-2 font-medium">Simulador de Crédito</a>
+            <a href="#app-mobile" class="block hover:text-gold-400 py-2 font-medium">App FINIX Android</a>
+            <a href="#quienes-somos" class="block hover:text-gold-400 py-2 font-medium">Quiénes Somos</a>
+            <a href="#beneficios" class="block hover:text-gold-400 py-2 font-medium">Beneficios</a>
+            <a href="#cotizacion" class="block hover:text-gold-400 py-2 font-medium">Cotización Dólar</a>
+            <a href="https://wa.me/5493834709315?text=Hola%20FINIX%20Center,%20quisiera%20informaci%C3%B3n%20sobre%20cr%C3%A9ditos."
+                target="_blank"
+                class="w-full mt-2 px-4 py-2.5 rounded-xl border border-gold-500 bg-gold-500/20 text-gold-400 font-bold text-center block">
+                <i class="fab fa-whatsapp text-base me-2"></i> Contactar por WhatsApp
+            </a>
+        </div>
+    </header>
+
+    <!-- HERO SECTION: SIMULADOR DE CRÉDITO (REDUCIDO UN 15% DE TAMAÑO) -->
+    <section id="simulador" class="relative pt-28 pb-16 md:pt-36 md:pb-24 overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid md:grid-cols-12 gap-8 lg:gap-12 items-center">
+
+                <!-- Hero Left: Text & Pitch -->
+                <div class="md:col-span-6 lg:col-span-7 space-y-5 text-center md:text-left reveal-left">
+                    <div
+                        class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full glass-panel border-gold-500/40 text-gold-400 text-xs font-semibold uppercase tracking-wider">
+                        <span class="w-2 h-2 rounded-full bg-gold-400 animate-pulse"></span>
+                        Soluciones Financieras & Créditos a Medida
+                    </div>
+
+                    <h1
+                        class="font-heading text-3xl sm:text-4xl lg:text-5xl font-extrabold theme-text-heading leading-tight">
+                        Transformá tus proyectos con <span class="text-gold-gradient">FINIX Center</span>
+                    </h1>
+
+                    <p class="theme-text-muted text-sm sm:text-base max-w-xl font-light leading-relaxed">
+                        En <strong class="theme-text-heading font-semibold">FINIX Center</strong> brindamos atención
+                        personalizada y créditos ágiles con cuotas fijas pensados para potenciar cada etapa de nuestros
+                        socios.
+                    </p>
+
+                    <!-- Features Pills -->
+                    <div class="grid grid-cols-3 gap-2 pt-3 border-t border-gold-500/20">
+                        <div class="flex flex-col items-center md:items-start">
+                            <div
+                                class="w-8 h-8 rounded-lg bg-gold-500/10 border border-gold-500/30 flex items-center justify-center text-gold-400 mb-1.5 text-xs">
+                                <i class="fas fa-calendar-check"></i>
+                            </div>
+                            <span class="text-[10px] font-bold uppercase tracking-wider theme-text-muted">Hasta 24
+                                Cuotas</span>
+                        </div>
+                        <div class="flex flex-col items-center md:items-start">
+                            <div
+                                class="w-8 h-8 rounded-lg bg-gold-500/10 border border-gold-500/30 flex items-center justify-center text-gold-400 mb-1.5 text-xs">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                            <span class="text-[10px] font-bold uppercase tracking-wider theme-text-muted">Aprobación
+                                Rápida</span>
+                        </div>
+                        <div class="flex flex-col items-center md:items-start">
+                            <div
+                                class="w-8 h-8 rounded-lg bg-gold-500/10 border border-gold-500/30 flex items-center justify-center text-gold-400 mb-1.5 text-xs">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <span class="text-[10px] font-bold uppercase tracking-wider theme-text-muted">Transparencia
+                                Total</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Hero Right: SIMULADOR COMPACTO (-15% SIZE) -->
+                <div class="md:col-span-6 lg:col-span-5 reveal-right">
+                    <div
+                        class="glass-panel rounded-2xl p-4 sm:p-5 relative shadow-xl overflow-hidden border border-gold-500/40 max-w-md mx-auto">
+                        <!-- Top Accent Line -->
+                        <div
+                            class="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-gold-300 via-gold-500 to-gold-700">
+                        </div>
+
+                        <div class="flex justify-between items-center mb-4">
+                            <div>
+                                <span class="text-[10px] uppercase font-bold text-gold-400 tracking-wider">Atención a
+                                    Socios</span>
+                                <h3 class="font-heading text-lg font-bold theme-text-heading">Simulador de Crédito</h3>
+                            </div>
+                            <div
+                                class="w-8 h-8 rounded-lg bg-gold-500/10 border border-gold-500/30 flex items-center justify-center text-gold-400 text-xs">
+                                <i class="fas fa-calculator"></i>
+                            </div>
+                        </div>
+
+                        <!-- Compact Simulator Controls -->
+                        <div class="space-y-3.5 text-xs">
+                            <!-- Socio Name Input -->
+                            <div>
+                                <label
+                                    class="block text-[10px] font-semibold uppercase tracking-wider mb-1 theme-text-muted">Nombre
+                                    del Socio:</label>
+                                <input type="text" id="hero-user-name" placeholder="Ej: Emiliano Rodríguez"
+                                    class="w-full px-3 py-1.5 rounded-lg bg-black/40 border border-gold-500/30 theme-text-heading placeholder-gray-500 text-xs focus:outline-none focus:border-gold-500">
+                            </div>
+
+                            <!-- Slider -->
+                            <div>
+                                <div class="flex justify-between items-center mb-1">
+                                    <label
+                                        class="text-[10px] font-semibold uppercase tracking-wider theme-text-muted">Monto
+                                        solicitado:</label>
+                                    <span class="text-gold-300 font-extrabold text-lg font-heading"
+                                        id="hero-loan-text">$500.000</span>
+                                </div>
+                                <input type="range" id="hero-loan-amount" min="100000" max="5000000" step="50000"
+                                    value="500000"
+                                    class="w-full accent-gold-500 bg-gray-800 rounded-lg h-1.5 cursor-pointer">
+                                <div class="flex justify-between text-[9px] theme-text-muted font-medium mt-0.5">
+                                    <span>$100.000</span>
+                                    <span>$2.500.000</span>
+                                    <span>$5.000.000</span>
+                                </div>
+                            </div>
+
+                            <!-- Installment Grid -->
+                            <div>
+                                <label
+                                    class="block text-[10px] font-semibold uppercase tracking-wider mb-1 theme-text-muted">Plazo
+                                    en cuotas fijas:</label>
+                                <div class="grid grid-cols-4 gap-1.5" id="hero-months-grid">
+                                    <button data-months="6"
+                                        class="hero-month-btn py-1.5 rounded-lg border border-gold-500/20 text-[11px] font-bold theme-text-muted hover:border-gold-500 transition-all">6</button>
+                                    <button data-months="12"
+                                        class="hero-month-btn active py-1.5 rounded-lg border border-gold-500 text-[11px] font-bold theme-text-heading bg-gold-500/20 transition-all">12</button>
+                                    <button data-months="18"
+                                        class="hero-month-btn py-1.5 rounded-lg border border-gold-500/20 text-[11px] font-bold theme-text-muted hover:border-gold-500 transition-all">18</button>
+                                    <button data-months="24"
+                                        class="hero-month-btn py-1.5 rounded-lg border border-gold-500/20 text-[11px] font-bold theme-text-muted hover:border-gold-500 transition-all">24</button>
+                                </div>
+                            </div>
+
+                            <!-- Result Box -->
+                            <div class="p-3 rounded-xl bg-black/60 border border-gold-500/30 text-center space-y-0.5">
+                                <span class="text-[9px] font-semibold text-gray-400 uppercase tracking-widest">Valor
+                                    Cuota Mensual Estimada</span>
+                                <div class="text-xl font-extrabold text-gold-gradient font-heading"
+                                    id="hero-monthly-result">$79.800</div>
+                                <p class="text-[9px] text-gray-400">Cuotas fijas en pesos. Sujeto a aprobación
+                                    crediticia.</p>
+                            </div>
+
+                            <!-- WhatsApp Action (+5493834709315) -->
+                            <a id="hero-cta-btn" href="#" target="_blank"
+                                class="w-full py-2.5 rounded-xl bg-gradient-to-r from-gold-500 via-gold-400 to-gold-600 text-black font-extrabold text-xs block text-center shadow-gold-glow hover:shadow-gold-glow-lg transition-all transform hover:-translate-y-0.5">
+                                <i class="fab fa-whatsapp text-sm me-1.5"></i> Solicitar Crédito por WhatsApp
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- REGIONAL COVERAGE BAR -->
+    <section class="py-6 border-y border-gold-500/20 bg-black/30">
+        <div class="max-w-7xl mx-auto px-4 text-center">
+            <p class="text-[10px] font-bold uppercase tracking-widest text-gold-400 mb-3">FINIX Center en el Norte
+                Argentino</p>
+            <div class="flex flex-wrap justify-center items-center gap-6 md:gap-12 opacity-80 text-xs sm:text-sm">
+                <span class="font-heading font-extrabold theme-text-heading tracking-widest">CASA CENTRAL TUCUMÁN</span>
+                <span class="text-gold-500">•</span>
+                <span class="font-heading font-extrabold theme-text-heading tracking-widest">SALTA</span>
+                <span class="text-gold-500">•</span>
+                <span class="font-heading font-extrabold theme-text-heading tracking-widest">JUJUY</span>
+                <span class="text-gold-500">•</span>
+                <span class="font-heading font-extrabold theme-text-heading tracking-widest">CATAMARCA</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN APP MÓVIL ANDROID (MOCKUP REAL 3D GLASS) -->
+    <section id="app-mobile" class="py-20 relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="grid lg:grid-cols-12 gap-10 items-center">
+
+                <!-- Mockup de la App FINIX Android -->
+                <div class="lg:col-span-6 order-2 lg:order-1 flex justify-center reveal-zoom">
+                    <div class="relative w-[310px] sm:w-[330px] animate-float-phone">
+                        <div class="absolute inset-0 bg-gold-500/20 blur-3xl rounded-full -z-10"></div>
+
+                        <!-- Phone Frame Structure -->
+                        <div
+                            class="w-full bg-slate-950 border-[7px] border-slate-800 rounded-[44px] shadow-phone-shadow overflow-hidden text-slate-800">
+
+                            <!-- Phone Notch Header -->
+                            <div class="bg-black py-2 px-5 flex justify-between items-center text-white text-[10px]">
+                                <span class="font-bold">9:41</span>
+                                <div class="w-14 h-3.5 bg-black rounded-full flex items-center justify-center">
+                                    <div class="w-2.5 h-2.5 rounded-full bg-slate-900"></div>
+                                </div>
+                                <div class="flex gap-1 text-[9px]">
+                                    <i class="fas fa-signal"></i>
+                                    <i class="fas fa-wifi"></i>
+                                    <i class="fas fa-battery-full"></i>
+                                </div>
+                            </div>
+
+                            <!-- APP CONTENT CONTAINER (Exact App Details) -->
+                            <div
+                                class="bg-[#F8F6EF] p-3.5 text-slate-900 font-sans space-y-3.5 max-h-[580px] overflow-y-auto">
+
+                                <!-- App Top User Card -->
+                                <div class="app-header-card rounded-2xl p-3.5 text-white relative overflow-hidden">
+                                    <div class="flex justify-between items-start mb-1.5">
+                                        <div class="flex items-center gap-1.5">
+                                            <!-- LOGO FINIX CENTER (SVG Externo) -->
+                                            <a href="#" class="flex items-center gap-2 group">
+                                                <div class="h-10 flex items-center">
+                                                    <img src="finixlogo-horizontal-B.svg" alt="FINIX Center"
+                                                        class="h-9 w-auto object-contain filter drop-shadow-[0_0_10px_rgba(212,175,55,0.3)]">
+                                                </div>
+                                            </a>
+
+                                        </div>
+                                        <div class="flex items-center gap-1.5">
+                                            <div
+                                                class="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center text-[10px]">
+                                                <i class="fas fa-bell"></i>
+                                            </div>
+                                            <div
+                                                class="w-6 h-6 rounded-full bg-white/20 flex items-center justify-center text-[10px]">
+                                                <i class="fas fa-user"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="mt-1">
+                                        <p class="text-[10px] text-amber-100 font-medium">Buen día</p>
+                                        <h4 class="font-heading font-extrabold text-base text-white leading-tight">
+                                            Emiliano Rodriguez</h4>
+                                        <p class="text-[9px] text-amber-200">DNI 40000350</p>
+                                    </div>
+
+                                    <div class="mt-3 pt-2.5 border-t border-white/20">
+                                        <p class="text-[9px] uppercase tracking-wider text-amber-100">Saldo pendiente
+                                        </p>
+                                        <p class="text-xl font-extrabold text-white font-heading">$2.760.002,00</p>
+                                    </div>
+                                </div>
+
+                                <!-- App Shortcuts Grid -->
+                                <div>
+                                    <h5 class="text-[11px] font-bold text-slate-800 mb-1.5 font-heading">Tus atajos</h5>
+                                    <div class="grid grid-cols-4 gap-1.5">
+                                        <div
+                                            class="p-1.5 bg-amber-100/70 rounded-xl text-center flex flex-col items-center justify-center border border-amber-200">
+                                            <i class="fas fa-wallet text-amber-700 text-xs mb-1"></i>
+                                            <span class="text-[8px] font-bold leading-tight text-slate-800">Mis
+                                                créditos</span>
+                                        </div>
+                                        <div
+                                            class="p-1.5 bg-amber-100/70 rounded-xl text-center flex flex-col items-center justify-center border border-amber-200">
+                                            <i class="fas fa-file-invoice text-amber-700 text-xs mb-1"></i>
+                                            <span class="text-[8px] font-bold leading-tight text-slate-800">Estado de
+                                                cuenta</span>
+                                        </div>
+                                        <div
+                                            class="p-1.5 bg-amber-100/70 rounded-xl text-center flex flex-col items-center justify-center border border-amber-200">
+                                            <i class="fas fa-calculator text-amber-700 text-xs mb-1"></i>
+                                            <span class="text-[8px] font-bold leading-tight text-slate-800">Simulá tu
+                                                crédito</span>
+                                        </div>
+                                        <div
+                                            class="p-1.5 bg-amber-100/70 rounded-xl text-center flex flex-col items-center justify-center border border-amber-200">
+                                            <i class="fas fa-comments text-amber-700 text-xs mb-1"></i>
+                                            <span class="text-[8px] font-bold leading-tight text-slate-800">Mis
+                                                solicitudes</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- App Avisos Card -->
+                                <div
+                                    class="bg-white p-3 rounded-xl shadow-sm border border-slate-200 flex items-center justify-between">
+                                    <div class="flex items-center gap-2.5">
+                                        <div
+                                            class="w-7 h-7 rounded-lg bg-amber-100 text-amber-700 flex items-center justify-center text-xs">
+                                            <i class="fas fa-calendar-alt"></i>
+                                        </div>
+                                        <div>
+                                            <p class="text-[9px] text-slate-500 font-medium">Próxima cuota</p>
+                                            <p class="text-xs font-extrabold text-slate-900 font-heading">$197.143,00
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <span
+                                        class="text-[9px] font-bold text-amber-800 bg-amber-100 px-2 py-0.5 rounded">Martes</span>
+                                </div>
+
+                                <!-- App Supermiércoles -->
+                                <div
+                                    class="bg-amber-100/80 rounded-xl p-2.5 border border-amber-300/60 flex items-center gap-2">
+                                    <div class="flex-1">
+                                        <span
+                                            class="text-[8px] uppercase font-bold text-amber-900 bg-amber-300/70 px-1.5 py-0.5 rounded">Más
+                                            beneficios</span>
+                                        <h6 class="font-extrabold text-[11px] text-slate-900 font-heading mt-0.5">
+                                            ¡SUPERMIÉRCOLES!</h6>
+                                        <p class="text-[8px] text-slate-700 mt-0.5 leading-tight">Descuentos exclusivos
+                                            en comercios adheridos.</p>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Text Description & Downloads -->
+                <div class="lg:col-span-6 order-1 lg:order-2 space-y-5 reveal-right">
+                    <span
+                        class="px-3 py-1 rounded-full bg-gold-500/10 border border-gold-500/30 text-gold-400 text-xs font-bold uppercase tracking-widest">
+                        Plataforma Móvil Android
+                    </span>
+
+                    <h2 class="font-heading text-3xl sm:text-4xl font-extrabold theme-text-heading leading-tight">
+                        Gestioná tus créditos desde la <span class="text-gold-gradient">App Móvil</span>
+                    </h2>
+
+                    <p class="theme-text-muted text-sm sm:text-base font-light leading-relaxed">
+                        Con la App de <strong class="theme-text-heading font-semibold">FINIX Center</strong> para
+                        Android, tenés acceso directo a tus estados de cuenta, el detalle de tus cuotas, vencimientos y
+                        la posibilidad de solicitar nuevos créditos al instante.
+                    </p>
+
+                    <div class="space-y-2.5 pt-1 text-xs sm:text-sm">
+                        <div class="flex items-start gap-3">
+                            <div
+                                class="w-5 h-5 rounded-full bg-gold-500/20 text-gold-400 flex items-center justify-center text-[10px] mt-0.5 border border-gold-500/40">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div>
+                                <h4 class="theme-text-heading font-bold">Estado de Cuenta en Vivo</h4>
+                                <p class="text-xs theme-text-muted">Consultá saldos vigentes y comprobantes de pago en
+                                    cualquier lugar.</p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-3">
+                            <div
+                                class="w-5 h-5 rounded-full bg-gold-500/20 text-gold-400 flex items-center justify-center text-[10px] mt-0.5 border border-gold-500/40">
+                                <i class="fas fa-check"></i>
+                            </div>
+                            <div>
+                                <h4 class="theme-text-heading font-bold">Simulaciones Express</h4>
+                                <p class="text-xs theme-text-muted">Calculá nuevos montos y solicitá renovaciones con 1
+                                    solo clic.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- App Badges -->
+                    <div class="pt-4 flex flex-wrap gap-4 items-center">
+                        <a href="https://wa.me/5493834709315?text=Hola,%20quisiera%20el%20link%20de%20descarga%20de%20la%20App%20FINIX%20Center"
+                            target="_blank"
+                            class="px-5 py-3 rounded-xl bg-black border border-gold-500/40 text-white hover:border-gold-400 transition-all flex items-center gap-3 shadow-gold-glow">
+                            <i class="fab fa-google-play text-2xl text-gold-400"></i>
+                            <div class="text-left">
+                                <p class="text-[8px] uppercase tracking-wider text-gray-400">Disponible en</p>
+                                <p class="text-xs font-bold font-heading text-white">Google Play Store</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- QUIENES SOMOS: FINIX CENTER (SIN CUADRO NI MAPA DE OFICINAS) -->
+    <section id="quienes-somos" class="py-16 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="glass-panel rounded-3xl p-6 sm:p-10 border border-gold-500/30 reveal">
+
+                <div class="text-center max-w-3xl mx-auto space-y-3 mb-10">
+                    <span
+                        class="px-3 py-1 rounded-full bg-gold-500/10 border border-gold-500/30 text-gold-400 text-xs font-bold uppercase tracking-widest">
+                        Quiénes Somos
+                    </span>
+                    <h2 class="font-heading text-3xl sm:text-4xl font-extrabold theme-text-heading">
+                        Tu aliado financiero para <span class="text-gold-gradient">impulsarte</span> en cada etapa
+                    </h2>
+                    <p class="theme-text-muted text-sm sm:text-base leading-relaxed">
+                        En <strong class="theme-text-heading font-semibold">FINIX Center</strong> nacimos en el Norte
+                        Argentino con un propósito claro: ser el motor que transforma proyectos en realidades. Hoy
+                        acompañamos a cientos de socios activos desde nuestra Casa Central en Tucumán y presencia en
+                        toda la región.
+                    </p>
+                </div>
+
+                <!-- Dual Cards for Mission & Vision (Clean Layout Without Maps) -->
+                <div class="grid md:grid-cols-2 gap-6 pt-4">
+
+                    <div class="glass-card rounded-2xl p-6 space-y-3 border-gold-500/30 flex flex-col justify-between">
+                        <div>
+                            <div
+                                class="w-10 h-10 rounded-xl bg-gold-500/10 border border-gold-500/30 flex items-center justify-center text-gold-400 mb-3 text-lg">
+                                <i class="fas fa-bullseye"></i>
+                            </div>
+                            <h3 class="font-heading text-xl font-bold theme-text-heading">Nuestra Misión</h3>
+                            <p class="theme-text-muted text-xs sm:text-sm leading-relaxed mt-2">
+                                Ser tu aliado financiero, brindándote soluciones simples, rápidas y a medida para que
+                                alcances tus metas comerciales y personales con tranquilidad.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div class="glass-card rounded-2xl p-6 space-y-3 border-gold-500/30 flex flex-col justify-between">
+                        <div>
+                            <div
+                                class="w-10 h-10 rounded-xl bg-gold-500/10 border border-gold-500/30 flex items-center justify-center text-gold-400 mb-3 text-lg">
+                                <i class="fas fa-eye"></i>
+                            </div>
+                            <h3 class="font-heading text-xl font-bold theme-text-heading">Nuestra Visión & Valores</h3>
+                            <p class="theme-text-muted text-xs sm:text-sm leading-relaxed mt-2">
+                                Liderar el sector financiero regional manteniendo siempre nuestra esencia: una atención
+                                humana, personalizada y guiada por la integridad, la honestidad y la transparencia.
+                            </p>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- VERTICAL BRAND SVG INTEGRATION (finixlogo-vertical.svg) -->
+                <div
+                    class="mt-10 pt-8 border-t border-gold-500/20 flex flex-col md:flex-row items-center justify-center gap-6 text-center md:text-left">
+                    <div class="w-32 sm:w-36 flex-shrink-0 flex items-center justify-center">
+                        <img src="finixlogo-horizontal.svg" alt="FINIX Center"
+                            class="w-full h-auto object-contain filter drop-shadow-[0_0_8px_rgba(212,175,55,0.3)]">
+                    </div>
+                    <div class="text-xs theme-text-muted space-y-1">
+                        <p class="font-bold theme-text-heading text-sm font-heading">FINIX Center — Marca Registrada
+                        </p>
+                        <p>Atención personalizada al socio • Créditos en cuotas fijas • Casa Central Tucumán</p>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- BENEFICIOS FINIX CENTER -->
+    <section id="beneficios" class="py-16 relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center max-w-3xl mx-auto mb-12 space-y-3 reveal">
+                <span
+                    class="px-3 py-1 rounded-full bg-gold-500/10 border border-gold-500/30 text-gold-400 text-xs font-bold uppercase tracking-widest">
+                    Beneficios
+                </span>
+                <h2 class="font-heading text-3xl sm:text-4xl font-extrabold theme-text-heading">
+                    Por qué elegir a <span class="text-gold-gradient">FINIX Center</span>
+                </h2>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-6">
+
+                <div class="glass-card rounded-2xl p-6 relative flex flex-col justify-between group reveal">
+                    <div class="space-y-3">
+                        <div
+                            class="w-12 h-12 rounded-xl bg-gold-500/10 border border-gold-500/30 flex items-center justify-center text-gold-400 text-xl group-hover:bg-gold-500 group-hover:text-black transition-all">
+                            <i class="fas fa-hand-holding-usd"></i>
+                        </div>
+                        <h3 class="font-heading text-xl font-bold theme-text-heading">Créditos Flexibles</h3>
+                        <p class="theme-text-muted text-xs sm:text-sm leading-relaxed">
+                            Planes acordes a tus posibilidades con cuotas fijas en pesos y plazos desde 6 hasta 24
+                            meses.
+                        </p>
+                    </div>
+                </div>
+
+                <div
+                    class="glass-card rounded-2xl p-6 relative flex flex-col justify-between group border-gold-500/40 reveal">
+                    <div class="space-y-3">
+                        <div
+                            class="w-12 h-12 rounded-xl bg-gold-500/10 border border-gold-500/30 flex items-center justify-center text-gold-400 text-xl group-hover:bg-gold-500 group-hover:text-black transition-all">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h3 class="font-heading text-xl font-bold theme-text-heading">Gestión Digital en la App</h3>
+                        <p class="theme-text-muted text-xs sm:text-sm leading-relaxed">
+                            Mirá tus saldos y cuotas desde tu celular de manera totalmente digital en nuestra App para
+                            Android.
+                        </p>
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-2xl p-6 relative flex flex-col justify-between group reveal">
+                    <div class="space-y-3">
+                        <div
+                            class="w-12 h-12 rounded-xl bg-gold-500/10 border border-gold-500/30 flex items-center justify-center text-gold-400 text-xl group-hover:bg-gold-500 group-hover:text-black transition-all">
+                            <i class="fas fa-coins"></i>
+                        </div>
+                        <h3 class="font-heading text-xl font-bold theme-text-heading">Mercado Cambiario</h3>
+                        <p class="theme-text-muted text-xs sm:text-sm leading-relaxed">
+                            Cotización del día transparente en compra y venta de divisas con atención en privado.
+                        </p>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- COTIZACIÓN DEL DÓLAR -->
+    <section id="cotizacion" class="py-14 relative">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="glass-panel rounded-3xl p-6 sm:p-8 border border-gold-500/30 reveal-zoom">
+                <div class="text-center mb-6">
+                    <span class="text-[10px] uppercase font-bold text-gold-400 tracking-wider">Mercado Cambiario</span>
+                    <h3 class="font-heading text-2xl font-bold theme-text-heading mt-0.5">Compramos tus Dólares</h3>
+                    <p class="text-xs theme-text-muted">Cotización del día con la mejor tasa regional</p>
+                </div>
+
+                <div class="grid sm:grid-cols-2 gap-4">
+                    <div
+                        class="p-4 rounded-xl bg-black/50 border border-emerald-500/30 flex items-center justify-between">
+                        <div>
+                            <p class="text-[10px] text-gray-400 uppercase tracking-wider font-semibold">Compramos</p>
+                            <p class="text-2xl font-extrabold text-white font-heading mt-0.5">$1.185,00</p>
+                        </div>
+                        <div
+                            class="w-9 h-9 rounded-lg bg-emerald-500/10 text-emerald-400 flex items-center justify-center">
+                            <i class="fas fa-arrow-down"></i>
+                        </div>
+                    </div>
+
+                    <div class="p-4 rounded-xl bg-black/50 border border-gold-500/30 flex items-center justify-between">
+                        <div>
+                            <p class="text-[10px] text-gray-400 uppercase tracking-wider font-semibold">Vendemos</p>
+                            <p class="text-2xl font-extrabold text-white font-heading mt-0.5">$1.215,00</p>
+                        </div>
+                        <div class="w-9 h-9 rounded-lg bg-gold-500/10 text-gold-400 flex items-center justify-center">
+                            <i class="fas fa-arrow-up"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-5 text-center">
+                    <a href="https://wa.me/5493834709315?text=Hola%20FINIX%20Center,%20quisiera%20consultar%20por%20la%20cotizaci%C3%B3n%20de%20d%C3%B3lares%20del%20d%C3%ADa."
+                        target="_blank"
+                        class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full border border-gold-500/40 text-gold-300 hover:bg-gold-500 hover:text-black font-semibold text-xs uppercase tracking-wider transition-all">
+                        <i class="fab fa-whatsapp text-sm"></i>
+                        <span>Consultar por operaciones en privado</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER WITH WHATSAPP +5493834709315 -->
+    <footer class="relative pt-12 pb-10 border-t border-gold-500/20 bg-black/90 text-gray-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid md:grid-cols-12 gap-8 mb-10">
+
+                <div class="md:col-span-5 space-y-3">
+                    <div class="h-8 flex items-center">
+                        <img src="finixlogo-horizontal.svg" alt="FINIX Center"
+                            class="h-9 w-auto object-contain brightness-0 invert sepia hue-rotate-[10deg] saturate-[500%]">
+                    </div>
+                    <p class="text-xs text-gray-400 max-w-sm">
+                        Servicios financieros y créditos a medida en cuotas fijas. Casa Central en Tucumán con cobertura
+                        en todo el Norte Argentino.
+                    </p>
+                </div>
+
+                <div class="md:col-span-3 space-y-2">
+                    <h4 class="text-white font-bold text-xs font-heading uppercase tracking-wider">Secciones</h4>
+                    <ul class="space-y-1.5 text-xs text-gray-400">
+                        <li><a href="#simulador" class="hover:text-gold-400 transition-colors">Simulador de Créditos</a>
+                        </li>
+                        <li><a href="#app-mobile" class="hover:text-gold-400 transition-colors">App FINIX Android</a>
+                        </li>
+                        <li><a href="#quienes-somos" class="hover:text-gold-400 transition-colors">Quiénes Somos</a>
+                        </li>
+                        <li><a href="#cotizacion" class="hover:text-gold-400 transition-colors">Cotización USD</a></li>
+                    </ul>
+                </div>
+
+                <div class="md:col-span-4 space-y-2">
+                    <h4 class="text-white font-bold text-xs font-heading uppercase tracking-wider">Atención Directa</h4>
+                    <div class="space-y-1.5 text-xs text-gray-400">
+                        <p class="flex items-center gap-2"><i class="fas fa-building text-gold-400"></i> Casa Central:
+                            Tucumán, Argentina</p>
+                        <p class="flex items-center gap-2">
+                            <i class="fab fa-whatsapp text-gold-400 text-sm"></i>
+                            <a href="https://wa.me/5493834709315" target="_blank"
+                                class="hover:text-gold-300 font-medium">+54 9 3834 709315</a>
+                        </p>
+                        <p class="flex items-center gap-2"><i class="fas fa-clock text-gold-400"></i> Lunes a Viernes
+                            09:00 - 18:00 hs</p>
+                    </div>
+                </div>
+
+            </div>
+
+            <div
+                class="pt-6 border-t border-white/10 flex flex-col sm:flex-row justify-between items-center text-[11px] text-gray-500">
+                <p>&copy; 2026 FINIX Center. Todos los derechos reservados.</p>
+                <p class="mt-1 sm:mt-0">FINIX Center — Soluciones Financieras</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODAL DE ACCESO / INICIAR SESIÓN (SOCIO vs COLABORADOR) -->
+    <div id="login-modal"
+        class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
+        <div
+            class="glass-panel w-full max-w-md rounded-3xl p-6 sm:p-8 border border-gold-500/40 relative shadow-2xl animate-zoom">
+
+            <!-- Close Modal Button -->
+            <button id="close-login-modal-btn"
+                class="absolute top-5 right-5 w-8 h-8 rounded-full bg-white/10 text-gray-400 hover:text-white flex items-center justify-center text-sm">
+                <i class="fas fa-times"></i>
+            </button>
+
+            <div class="text-center mb-6">
+                <div
+                    class="w-12 h-12 rounded-2xl bg-gold-500/10 border border-gold-500/40 flex items-center justify-center text-gold-400 text-xl mx-auto mb-3">
+                    <i class="fas fa-user-lock"></i>
+                </div>
+                <h3 class="font-heading text-2xl font-bold theme-text-heading">Acceso al Sistema</h3>
+                <p class="text-xs theme-text-muted mt-1">Seleccioná tu tipo de perfil para ingresar</p>
+            </div>
+
+            <!-- Profile Type Selector Buttons -->
+            <div class="space-y-4">
+
+                <!-- Socio Profile Access -->
+                <button onclick="alert('Redirigiendo al Portal Oficial de Socios de FINIX Center...')"
+                    class="w-full p-4 rounded-2xl border border-gold-500/40 bg-gold-500/10 hover:bg-gold-500 hover:text-black theme-text-heading transition-all flex items-center gap-4 group text-left">
+                    <div
+                        class="w-12 h-12 rounded-xl bg-gold-500/20 text-gold-400 group-hover:bg-black group-hover:text-gold-400 flex items-center justify-center text-xl flex-shrink-0">
+                        <i class="fas fa-user text-lg"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-sm font-heading">Soy Socio</h4>
+                        <p class="text-xs theme-text-muted group-hover:text-black/80">Accedé a tus cuotas, saldos y
+                            solicitud de nuevos créditos</p>
+                    </div>
+                </button>
+
+                <!-- Colaborador Profile Access -->
+                <button onclick="alert('Redirigiendo al Sistema de Gestión Interno / CRM de FINIX Center...')"
+                    class="w-full p-4 rounded-2xl border border-white/10 hover:border-gold-500/60 bg-black/40 hover:bg-white/5 theme-text-heading transition-all flex items-center gap-4 group text-left">
+                    <div
+                        class="w-12 h-12 rounded-xl bg-gray-800 text-gray-300 group-hover:text-gold-400 flex items-center justify-center text-xl flex-shrink-0">
+                        <i class="fas fa-user-shield text-lg"></i>
+                    </div>
+                    <div>
+                        <h4 class="font-bold text-sm font-heading">Soy Colaborador</h4>
+                        <p class="text-xs theme-text-muted">Acceso al sistema interno de gestión, evaluación y soporte
+                        </p>
+                    </div>
+                </button>
+
+            </div>
+
+            <p class="text-[10px] text-center theme-text-muted mt-6">FINIX Center — Conexión Encriptada Segura</p>
+        </div>
+    </div>
+
+    <!-- INTERACTIVE JAVASCRIPT LOGIC -->
+    <script>
+        // 1. STAR-DUST VORTEX CANVAS BACKGROUND (NO CONCENTRIC ORBITS)
+        const canvas = document.getElementById('vortex-canvas');
+        const ctx = canvas.getContext('2d');
+
+        let width, height, centerX, centerY;
+        let particles = [];
+        const numParticles = 160;
+
+        function resizeCanvas() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            centerX = width / 2;
+            centerY = height / 3;
+        }
+
+        class StarParticle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.radius = Math.random() * Math.max(width, height) * 0.65 + 40;
+                this.angle = Math.random() * Math.PI * 2;
+                this.speed = (Math.random() * 0.0012) + 0.0004;
+                this.size = Math.random() * 2.2 + 0.8;
+                this.alpha = Math.random() * 0.6 + 0.25;
+                const colors = ['#FFE680', '#D4AF37', '#AA820A', '#F5D061', '#FFFFFF'];
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+            }
+
+            update() {
+                this.angle += this.speed;
+                this.radius -= 0.12;
+                if (this.radius <= 10) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                const x = centerX + Math.cos(this.angle) * this.radius;
+                const y = centerY + Math.sin(this.angle) * (this.radius * 0.42);
+
+                ctx.save();
+                ctx.globalAlpha = this.alpha;
+                ctx.fillStyle = this.color;
+                ctx.shadowBlur = 6;
+                ctx.shadowColor = '#D4AF37';
+                ctx.beginPath();
+                ctx.arc(x, y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        function initVortex() {
+            resizeCanvas();
+            particles = [];
+            for (let i = 0; i < numParticles; i++) {
+                particles.push(new StarParticle());
+            }
+        }
+
+        function animateVortex() {
+            ctx.clearRect(0, 0, width, height);
+
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+
+            requestAnimationFrame(animateVortex);
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        initVortex();
+        animateVortex();
+
+        // 2. LIGHT / DARK MODE SWITCHER (DARK ZINC HIGH CONTRAST IN LIGHT MODE)
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeIcon = document.getElementById('theme-icon');
+        const themeToggleMobile = document.getElementById('theme-toggle-mobile');
+        const themeIconMobile = document.getElementById('theme-icon-mobile');
+        const htmlElement = document.documentElement;
+
+        function toggleTheme() {
+            if (htmlElement.classList.contains('dark')) {
+                htmlElement.classList.remove('dark');
+                htmlElement.classList.add('light');
+                themeIcon.classList.replace('fa-moon', 'fa-sun');
+                themeIconMobile.classList.replace('fa-moon', 'fa-sun');
+            } else {
+                htmlElement.classList.remove('light');
+                htmlElement.classList.add('dark');
+                themeIcon.classList.replace('fa-sun', 'fa-moon');
+                themeIconMobile.classList.replace('fa-sun', 'fa-moon');
+            }
+        }
+
+        themeToggleBtn.addEventListener('click', toggleTheme);
+        themeToggleMobile.addEventListener('click', toggleTheme);
+
+        // 3. LOGIN MODAL DIALOG CONTROLS
+        const loginModal = document.getElementById('login-modal');
+        const openLoginBtn = document.getElementById('open-login-modal-btn');
+        const openLoginMobileBtn = document.getElementById('open-login-mobile-btn');
+        const closeLoginBtn = document.getElementById('close-login-modal-btn');
+
+        function openModal() { loginModal.classList.remove('hidden'); }
+        function closeModal() { loginModal.classList.add('hidden'); }
+
+        openLoginBtn.addEventListener('click', openModal);
+        openLoginMobileBtn.addEventListener('click', openModal);
+        closeLoginBtn.addEventListener('click', closeModal);
+
+        loginModal.addEventListener('click', (e) => {
+            if (e.target === loginModal) closeModal();
+        });
+
+        // 4. MOBILE MENU DROPDOWN
+        const mobileBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        mobileBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        // 5. COMPACTED HERO CREDIT SIMULATOR (+5493834709315)
+        const heroUserName = document.getElementById('hero-user-name');
+        const heroLoanInput = document.getElementById('hero-loan-amount');
+        const heroLoanText = document.getElementById('hero-loan-text');
+        const heroMonthlyResult = document.getElementById('hero-monthly-result');
+        const heroMonthButtons = document.querySelectorAll('.hero-month-btn');
+        const heroCtaBtn = document.getElementById('hero-cta-btn');
+
+        let currentMonths = 12;
+
+        function updateHeroCalculator() {
+            const amount = parseFloat(heroLoanInput.value);
+            heroLoanText.textContent = `$${amount.toLocaleString('es-AR')}`;
+
+            const annualRate = 0.58;
+            const monthlyRate = annualRate / 12;
+            const fee = (amount * (1 + (monthlyRate * currentMonths))) / currentMonths;
+
+            heroMonthlyResult.textContent = `$${Math.round(fee).toLocaleString('es-AR')}`;
+
+            const userName = heroUserName.value.trim() ? heroUserName.value.trim() : "Socio FINIX";
+            const message = `Hola FINIX Center! Mi nombre es ${userName}. Quisiera solicitar mi crédito de $${amount.toLocaleString('es-AR')} en ${currentMonths} cuotas fijas estimadas de $${Math.round(fee).toLocaleString('es-AR')}.`;
+
+            heroCtaBtn.href = `https://wa.me/5493834709315?text=${encodeURIComponent(message)}`;
+        }
+
+        heroLoanInput.addEventListener('input', updateHeroCalculator);
+        heroUserName.addEventListener('input', updateHeroCalculator);
+
+        heroMonthButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                heroMonthButtons.forEach(b => {
+                    b.classList.remove('active', 'border-gold-500', 'bg-gold-500/20', 'theme-text-heading');
+                    b.classList.add('border-gold-500/20', 'theme-text-muted');
+                });
+
+                btn.classList.add('active', 'border-gold-500', 'bg-gold-500/20', 'theme-text-heading');
+                btn.classList.remove('border-gold-500/20', 'theme-text-muted');
+
+                currentMonths = parseInt(btn.getAttribute('data-months'));
+                updateHeroCalculator();
+            });
+        });
+
+        updateHeroCalculator();
+
+        // 6. SCROLL OBSERVER FOR REVEAL ANIMATIONS
+        document.addEventListener('DOMContentLoaded', () => {
+            const observerOptions = {
+                root: null,
+                rootMargin: '0px',
+                threshold: 0.1
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active');
+                    }
+                });
+            }, observerOptions);
+
+            const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-zoom');
+            revealElements.forEach(el => observer.observe(el));
+        });
+    </script>
+</body>
+
+</html>
