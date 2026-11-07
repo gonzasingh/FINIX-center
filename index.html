@@ -57,18 +57,27 @@
             --card-border: rgba(212, 175, 55, 0.25);
             --nav-bg: rgba(7, 9, 14, 0.88);
             --input-bg: rgba(0, 0, 0, 0.5);
+
+            /* Variables del simulador en Tema Oscuro */
+            --sim-input-bg: rgba(0, 0, 0, 0.4);
+            --sim-border: rgba(212, 175, 55, 0.3);
+            --sim-slider-track: #1f2937;
         }
 
         html.light {
             --bg-main: #F4F5F7;
             --text-main: #27272A;
-            /* High contrast 80% dark zinc */
             --text-muted: #52525B;
             --text-heading: #09090B;
             --card-bg: rgba(255, 255, 255, 0.92);
             --card-border: rgba(212, 175, 55, 0.35);
             --nav-bg: rgba(244, 245, 247, 0.92);
             --input-bg: rgba(240, 240, 245, 0.9);
+
+            /* Variables del simulador en Tema Claro (Gris casi blanco) */
+            --sim-input-bg: #F8F9FA;
+            --sim-border: #E5E7EB;
+            --sim-slider-track: #E5E7EB;
         }
 
         body {
@@ -140,9 +149,14 @@
             border-bottom: 1px solid var(--card-border);
         }
 
-        /* Responsive Logo Styling with SVG Metallic Mask */
-        .finix-logo-path {
-            fill: url(#gold-grad-logo);
+        /* Clases adaptativas para los elementos del Simulador */
+        .sim-field-bg {
+            background-color: var(--sim-input-bg) !important;
+            border-color: var(--sim-border) !important;
+        }
+
+        .sim-slider-track {
+            background-color: var(--sim-slider-track) !important;
         }
 
         /* Mobile App Mockup Header */
@@ -224,19 +238,7 @@
 
 <body class="antialiased selection:bg-gold-500 selection:text-black">
 
-    <!-- GLOBAL GOLD SVG GRADIENT DEFINITION -->
-    <svg width="0" height="0" class="absolute">
-        <defs>
-            <linearGradient id="gold-grad-logo" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stop-color="#FFF5C0" />
-                <stop offset="35%" stop-color="#E5C158" />
-                <stop offset="75%" stop-color="#D4AF37" />
-                <stop offset="100%" stop-color="#856100" />
-            </linearGradient>
-        </defs>
-    </svg>
-
-    <!-- DYNAMIC ANIMATED STAR-DUST VORTEX CANVAS BACKGROUND (NO ORBITS) -->
+    <!-- DYNAMIC ANIMATED STAR-DUST VORTEX CANVAS BACKGROUND -->
     <canvas id="vortex-canvas"></canvas>
 
     <!-- NAVBAR HEADER -->
@@ -244,17 +246,11 @@
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex items-center justify-between h-20">
 
-                <!-- EXACT HORIZONTAL SVG LOGO (finixlogo-horizontal.svg) -->
-                <a href="#" class="flex items-center gap-2 group">
+                <!-- LOGO IZQUIERDA -->
+                <a href="#" class="flex items-center gap-2 group flex-shrink-0 mr-auto lg:mr-0">
                     <div class="h-10 flex items-center">
-                        <svg class="h-9 w-auto" viewBox="0 0 250 85" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <!-- LOGO FINIX CENTER (SVG Externo) -->
-                            <a href="#" class="flex items-center gap-2 group">
-                                <div class="h-10 flex items-center">
-                                    <img src="finixlogo-horizontal.svg" alt="FINIX Center"
-                                        class="h-9 w-auto object-contain filter drop-shadow-[0_0_10px_rgba(212,175,55,0.3)]">
-                                </div>
-                            </a>
+                        <img src="finixlogo-horizontal.svg" alt="FINIX Center"
+                            class="h-7 sm:h-9 w-auto object-contain filter drop-shadow-[0_0_10px_rgba(212,175,55,0.3)]">
                     </div>
                 </a>
 
@@ -267,7 +263,7 @@
                     <a href="#cotizacion" class="hover:text-gold-400 transition-colors">Cotización USD</a>
                 </nav>
 
-                <!-- Action Controls: Login Modal Trigger, Theme Toggle & WhatsApp -->
+                <!-- Action Controls: Desktop -->
                 <div class="hidden md:flex items-center gap-3">
 
                     <!-- Dark/Light Theme Toggle -->
@@ -293,10 +289,10 @@
                     </button>
                 </div>
 
-                <!-- Mobile menu button -->
-                <div class="lg:hidden flex items-center gap-2">
+                <!-- Mobile menu button & controls -->
+                <div class="lg:hidden flex items-center gap-1.5 sm:gap-2">
                     <button id="open-login-mobile-btn"
-                        class="px-3.5 py-1.5 rounded-full bg-gold-500 text-black font-bold text-xs uppercase">
+                        class="px-3 py-1.5 rounded-full bg-gold-500 text-black font-bold text-[11px] uppercase tracking-wider">
                         Ingresar
                     </button>
                     <button id="theme-toggle-mobile"
@@ -327,7 +323,7 @@
         </div>
     </header>
 
-    <!-- HERO SECTION: SIMULADOR DE CRÉDITO (REDUCIDO UN 15% DE TAMAÑO) -->
+    <!-- HERO SECTION: SIMULADOR DE CRÉDITO -->
     <section id="simulador" class="relative pt-28 pb-16 md:pt-36 md:pb-24 overflow-hidden">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="grid md:grid-cols-12 gap-8 lg:gap-12 items-center">
@@ -380,7 +376,7 @@
                     </div>
                 </div>
 
-                <!-- Hero Right: SIMULADOR COMPACTO (-15% SIZE) -->
+                <!-- Hero Right: SIMULADOR COMPACTO -->
                 <div class="md:col-span-6 lg:col-span-5 reveal-right">
                     <div
                         class="glass-panel rounded-2xl p-4 sm:p-5 relative shadow-xl overflow-hidden border border-gold-500/40 max-w-md mx-auto">
@@ -409,7 +405,7 @@
                                     class="block text-[10px] font-semibold uppercase tracking-wider mb-1 theme-text-muted">Nombre
                                     del Socio:</label>
                                 <input type="text" id="hero-user-name" placeholder="Ej: Emiliano Rodríguez"
-                                    class="w-full px-3 py-1.5 rounded-lg bg-black/40 border border-gold-500/30 theme-text-heading placeholder-gray-500 text-xs focus:outline-none focus:border-gold-500">
+                                    class="sim-field-bg w-full px-3 py-1.5 rounded-lg border theme-text-heading placeholder-gray-400 text-xs focus:outline-none focus:border-gold-500">
                             </div>
 
                             <!-- Slider -->
@@ -423,7 +419,7 @@
                                 </div>
                                 <input type="range" id="hero-loan-amount" min="100000" max="5000000" step="50000"
                                     value="500000"
-                                    class="w-full accent-gold-500 bg-gray-800 rounded-lg h-1.5 cursor-pointer">
+                                    class="sim-slider-track w-full accent-gold-500 rounded-lg h-1.5 cursor-pointer">
                                 <div class="flex justify-between text-[9px] theme-text-muted font-medium mt-0.5">
                                     <span>$100.000</span>
                                     <span>$2.500.000</span>
@@ -438,27 +434,27 @@
                                     en cuotas fijas:</label>
                                 <div class="grid grid-cols-4 gap-1.5" id="hero-months-grid">
                                     <button data-months="6"
-                                        class="hero-month-btn py-1.5 rounded-lg border border-gold-500/20 text-[11px] font-bold theme-text-muted hover:border-gold-500 transition-all">6</button>
+                                        class="hero-month-btn sim-field-bg py-1.5 rounded-lg border text-[11px] font-bold theme-text-muted hover:border-gold-500 transition-all">6</button>
                                     <button data-months="12"
                                         class="hero-month-btn active py-1.5 rounded-lg border border-gold-500 text-[11px] font-bold theme-text-heading bg-gold-500/20 transition-all">12</button>
                                     <button data-months="18"
-                                        class="hero-month-btn py-1.5 rounded-lg border border-gold-500/20 text-[11px] font-bold theme-text-muted hover:border-gold-500 transition-all">18</button>
+                                        class="hero-month-btn sim-field-bg py-1.5 rounded-lg border text-[11px] font-bold theme-text-muted hover:border-gold-500 transition-all">18</button>
                                     <button data-months="24"
-                                        class="hero-month-btn py-1.5 rounded-lg border border-gold-500/20 text-[11px] font-bold theme-text-muted hover:border-gold-500 transition-all">24</button>
+                                        class="hero-month-btn sim-field-bg py-1.5 rounded-lg border text-[11px] font-bold theme-text-muted hover:border-gold-500 transition-all">24</button>
                                 </div>
                             </div>
 
                             <!-- Result Box -->
-                            <div class="p-3 rounded-xl bg-black/60 border border-gold-500/30 text-center space-y-0.5">
-                                <span class="text-[9px] font-semibold text-gray-400 uppercase tracking-widest">Valor
+                            <div class="sim-field-bg p-3 rounded-xl border text-center space-y-0.5">
+                                <span class="text-[9px] font-semibold theme-text-muted uppercase tracking-widest">Valor
                                     Cuota Mensual Estimada</span>
                                 <div class="text-xl font-extrabold text-gold-gradient font-heading"
                                     id="hero-monthly-result">$79.800</div>
-                                <p class="text-[9px] text-gray-400">Cuotas fijas en pesos. Sujeto a aprobación
+                                <p class="text-[9px] theme-text-muted">Cuotas fijas en pesos. Sujeto a aprobación
                                     crediticia.</p>
                             </div>
 
-                            <!-- WhatsApp Action (+5493834709315) -->
+                            <!-- WhatsApp Action -->
                             <a id="hero-cta-btn" href="#" target="_blank"
                                 class="w-full py-2.5 rounded-xl bg-gradient-to-r from-gold-500 via-gold-400 to-gold-600 text-black font-extrabold text-xs block text-center shadow-gold-glow hover:shadow-gold-glow-lg transition-all transform hover:-translate-y-0.5">
                                 <i class="fab fa-whatsapp text-sm me-1.5"></i> Solicitar Crédito por WhatsApp
@@ -488,7 +484,7 @@
         </div>
     </section>
 
-    <!-- SECCIÓN APP MÓVIL ANDROID (MOCKUP REAL 3D GLASS) -->
+    <!-- SECCIÓN APP MÓVIL ANDROID -->
     <section id="app-mobile" class="py-20 relative overflow-hidden">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
             <div class="grid lg:grid-cols-12 gap-10 items-center">
@@ -515,7 +511,7 @@
                                 </div>
                             </div>
 
-                            <!-- APP CONTENT CONTAINER (Exact App Details) -->
+                            <!-- APP CONTENT CONTAINER -->
                             <div
                                 class="bg-[#F8F6EF] p-3.5 text-slate-900 font-sans space-y-3.5 max-h-[580px] overflow-y-auto">
 
@@ -523,14 +519,12 @@
                                 <div class="app-header-card rounded-2xl p-3.5 text-white relative overflow-hidden">
                                     <div class="flex justify-between items-start mb-1.5">
                                         <div class="flex items-center gap-1.5">
-                                            <!-- LOGO FINIX CENTER (SVG Externo) -->
                                             <a href="#" class="flex items-center gap-2 group">
-                                                <div class="h-10 flex items-center">
-                                                    <img src="finixlogo-horizontal-B.svg" alt="FINIX Center"
-                                                        class="h-9 w-auto object-contain filter drop-shadow-[0_0_10px_rgba(212,175,55,0.3)]">
+                                                <div class="h-8 flex items-center">
+                                                    <img src="finixlogo-horizontal.svg" alt="FINIX Center"
+                                                        class="h-7 w-auto object-contain brightness-0 invert">
                                                 </div>
                                             </a>
-
                                         </div>
                                         <div class="flex items-center gap-1.5">
                                             <div
@@ -687,7 +681,7 @@
         </div>
     </section>
 
-    <!-- QUIENES SOMOS: FINIX CENTER (SIN CUADRO NI MAPA DE OFICINAS) -->
+    <!-- QUIENES SOMOS -->
     <section id="quienes-somos" class="py-16 relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="glass-panel rounded-3xl p-6 sm:p-10 border border-gold-500/30 reveal">
@@ -708,7 +702,7 @@
                     </p>
                 </div>
 
-                <!-- Dual Cards for Mission & Vision (Clean Layout Without Maps) -->
+                <!-- Dual Cards for Mission & Vision -->
                 <div class="grid md:grid-cols-2 gap-6 pt-4">
 
                     <div class="glass-card rounded-2xl p-6 space-y-3 border-gold-500/30 flex flex-col justify-between">
@@ -741,7 +735,7 @@
 
                 </div>
 
-                <!-- VERTICAL BRAND SVG INTEGRATION (finixlogo-vertical.svg) -->
+                <!-- BRAND SVG INTEGRATION -->
                 <div
                     class="mt-10 pt-8 border-t border-gold-500/20 flex flex-col md:flex-row items-center justify-center gap-6 text-center md:text-left">
                     <div class="w-32 sm:w-36 flex-shrink-0 flex items-center justify-center">
@@ -749,11 +743,9 @@
                             class="w-full h-auto object-contain filter drop-shadow-[0_0_8px_rgba(212,175,55,0.3)]">
                     </div>
                     <div class="text-xs theme-text-muted space-y-1">
-                        <p class="font-bold theme-text-heading text-sm font-heading">FINIX Center — Marca Registrada
-                        </p>
+                        <p class="font-bold theme-text-heading text-sm font-heading">FINIX Center — Marca Registrada</p>
                         <p>Atención personalizada al socio • Créditos en cuotas fijas • Casa Central Tucumán</p>
                     </div>
-
                 </div>
 
             </div>
@@ -867,7 +859,7 @@
         </div>
     </section>
 
-    <!-- FOOTER WITH WHATSAPP +5493834709315 -->
+    <!-- FOOTER WITH WHATSAPP -->
     <footer class="relative pt-12 pb-10 border-t border-gold-500/20 bg-black/90 text-gray-300">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="grid md:grid-cols-12 gap-8 mb-10">
@@ -921,7 +913,7 @@
         </div>
     </footer>
 
-    <!-- MODAL DE ACCESO / INICIAR SESIÓN (SOCIO vs COLABORADOR) -->
+    <!-- MODAL DE ACCESO / INICIAR SESIÓN -->
     <div id="login-modal"
         class="fixed inset-0 z-[100] hidden flex items-center justify-center p-4 bg-black/80 backdrop-blur-md">
         <div
@@ -981,7 +973,7 @@
 
     <!-- INTERACTIVE JAVASCRIPT LOGIC -->
     <script>
-        // 1. STAR-DUST VORTEX CANVAS BACKGROUND (NO CONCENTRIC ORBITS)
+        // 1. STAR-DUST VORTEX CANVAS BACKGROUND
         const canvas = document.getElementById('vortex-canvas');
         const ctx = canvas.getContext('2d');
 
@@ -1058,7 +1050,7 @@
         initVortex();
         animateVortex();
 
-        // 2. LIGHT / DARK MODE SWITCHER (DARK ZINC HIGH CONTRAST IN LIGHT MODE)
+        // 2. LIGHT / DARK MODE SWITCHER
         const themeToggleBtn = document.getElementById('theme-toggle');
         const themeIcon = document.getElementById('theme-icon');
         const themeToggleMobile = document.getElementById('theme-toggle-mobile');
@@ -1106,7 +1098,7 @@
             mobileMenu.classList.toggle('hidden');
         });
 
-        // 5. COMPACTED HERO CREDIT SIMULATOR (+5493834709315)
+        // 5. COMPACTED HERO CREDIT SIMULATOR
         const heroUserName = document.getElementById('hero-user-name');
         const heroLoanInput = document.getElementById('hero-loan-amount');
         const heroLoanText = document.getElementById('hero-loan-text');
