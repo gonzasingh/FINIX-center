@@ -1,0 +1,201 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ==========================================================================
+   Variables de tema (oscuro por defecto, claro con html.light)
+   ========================================================================== */
+:root {
+  --bg-main: #07090e;
+  --text-main: #F3F4F6;
+  --text-muted: #9CA3AF;
+  --text-heading: #FFFFFF;
+  --card-bg: rgba(15, 18, 26, 0.75);
+  --card-border: rgba(212, 175, 55, 0.25);
+  --nav-bg: rgba(7, 9, 14, 0.88);
+  --input-bg: rgba(0, 0, 0, 0.5);
+
+  /* Variables del simulador en Tema Oscuro */
+  --sim-input-bg: rgba(0, 0, 0, 0.4);
+  --sim-border: rgba(212, 175, 55, 0.3);
+  --sim-slider-track: #1f2937;
+}
+
+html.light {
+  --bg-main: #F4F5F7;
+  --text-main: #27272A;
+  --text-muted: #52525B;
+  --text-heading: #09090B;
+  --card-bg: rgba(255, 255, 255, 0.92);
+  --card-border: rgba(212, 175, 55, 0.35);
+  --nav-bg: rgba(244, 245, 247, 0.92);
+  --input-bg: rgba(240, 240, 245, 0.9);
+
+  /* Variables del simulador en Tema Claro (Gris casi blanco) */
+  --sim-input-bg: #F8F9FA;
+  --sim-border: #E5E7EB;
+  --sim-slider-track: #E5E7EB;
+}
+
+body {
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  overflow-x: hidden;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* Canvas de fondo (partículas) */
+#vortex-canvas {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.85;
+  transition: opacity 0.5s ease;
+}
+
+html.light #vortex-canvas {
+  opacity: 0.3;
+}
+
+/* Animación del celular flotante */
+@keyframes floatSlow {
+  0%,
+  100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+
+  50% {
+    transform: translateY(-10px) rotate(1deg);
+  }
+}
+
+/* Scrollbar personalizada */
+::-webkit-scrollbar {
+  width: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: #07090e;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2A2415;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #D4AF37;
+}
+
+/* ==========================================================================
+   Componentes propios.
+   Van en la capa "components" para que las utilidades de Tailwind
+   (border-gold-500/40, transition-all, etc.) puedan sobrescribirlos,
+   igual que en la versión HTML original.
+   ========================================================================== */
+@layer components {
+  .theme-text-heading {
+    color: var(--text-heading);
+  }
+
+  .theme-text-muted {
+    color: var(--text-muted);
+  }
+
+  /* Gold Gradient Fill for Text & Icons */
+  .text-gold-gradient {
+    background: linear-gradient(135deg, #FFF5C0 0%, #D4AF37 50%, #9A7736 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  /* Glassmorphism Panels */
+  .glass-panel {
+    background: var(--card-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--card-border);
+  }
+
+  .glass-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border: 1px solid var(--card-border);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .glass-card:hover {
+    border-color: rgba(212, 175, 55, 0.6);
+    transform: translateY(-4px);
+    box-shadow: 0 16px 32px -12px rgba(212, 175, 55, 0.25);
+  }
+
+  .glass-nav {
+    background: var(--nav-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--card-border);
+  }
+
+  /* Clases adaptativas para los elementos del Simulador */
+  .sim-field-bg {
+    background-color: var(--sim-input-bg) !important;
+    border-color: var(--sim-border) !important;
+  }
+
+  .sim-slider-track {
+    background-color: var(--sim-slider-track) !important;
+  }
+
+  /* Mobile App Mockup Header */
+  .app-header-card {
+    background: linear-gradient(135deg, #D4AF37 0%, #B38E26 60%, #7A5C07 100%);
+    box-shadow: 0 8px 20px -4px rgba(212, 175, 55, 0.4);
+  }
+
+  /* Scroll Animations */
+  .reveal {
+    opacity: 0;
+    transform: translateY(35px);
+    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+    will-change: opacity, transform;
+  }
+
+  .reveal-left {
+    opacity: 0;
+    transform: translateX(-40px);
+    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .reveal-right {
+    opacity: 0;
+    transform: translateX(40px);
+    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .reveal-zoom {
+    opacity: 0;
+    transform: scale(0.94);
+    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .reveal.active,
+  .reveal-left.active,
+  .reveal-right.active,
+  .reveal-zoom.active {
+    opacity: 1;
+    transform: translateY(0) translateX(0) scale(1);
+  }
+
+  /* Floating Phone Animation */
+  .animate-float-phone {
+    animation: floatSlow 5s ease-in-out infinite;
+  }
+}

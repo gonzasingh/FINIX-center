@@ -1,0 +1,40 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Un "colaborador" es un usuario con un documento users/{uid} cuyo campo role == "colaborador".
+    // Ese documento se crea a mano desde la consola de Firebase.
+    function isStaff() {
+      return request.auth != null
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'colaborador';
+    }
+
+    // Cotización del dólar: la lee cualquiera (sitio público), la edita solo el personal.
+    match /config/exchangeRates {
+      allow read: if true;
+      allow write: if isStaff();
+    }
+
+    // Solicitudes de crédito enviadas desde el simulador (opcional, ver VITE_SAVE_CREDIT_REQUESTS).
+    match /creditRequests/{requestId} {
+      allow create: if request.resource.data.keys().hasOnly(['name', 'amount', 'months', 'installment', 'source', 'createdAt'])
+        && request.resource.data.name is string
+        && request.resource.data.name.size() <= 80
+        && request.resource.data.amount is number
+        && request.resource.data.amount >= 100000
+        && request.resource.data.amount <= 5000000
+        && request.resource.data.months in [6, 12, 18, 24]
+        && request.resource.data.installment is number
+        && request.resource.data.source == 'web'
+        && request.resource.data.createdAt == request.time;
+      allow read, update, delete: if isStaff();
+    }
+
+    // Perfil de cada usuario (rol). Cada uno puede leer solo el suyo; se edita desde la consola.
+    match /users/{uid} {
+      allow read: if request.auth != null && request.auth.uid == uid;
+      allow write: if false;
+    }
+  }
+}
